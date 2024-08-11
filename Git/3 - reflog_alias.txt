@@ -1,0 +1,30 @@
+---------------------------- GIT REFLOG ----------------------------
+
+reflog, lleva un reistro de todos los movimientos de HEAD, es decir, todas las veces que cambio el sitio al que apuntaba y cual fue dicho cambio.
+Esto permite recuperar commits eliminados, pero cómo?
+
+Bueno, de la misma forma que cuando eliminamos cualquier archivo al eliminar un commit lo que hacemos realmente es perder la referencia, es decir, hacemos que a pesar de que el commit sigue estando en el equipo git no tenga una referencia a este (el hash).
+
+Si nosotros tuvieramos guardada la referencia (el hash) del commit que queremos recuperar, es tan simlpe como hacer un reset o checkout hacia usando esa referencia. Pero es muy comun que no tengamos anotadas los hash de todos los commits realizados, es aquí donde entra "git reflog". "git log" solo muestra los commits a los que git tiene una referencia per "git reflog" muestra el movimiento del HEAD, por lo que aunque hayamos eliminado un commit (git no tiene una referencia a él) nos lo mostrará junto con su hash, y de esta forma simplemente lo que se dijo antes, un reset o checkout usando el hash del commit que queremos recuperar.
+
+---------------------------- ALIAS ----------------------------
+
+Supongamos que sabemos que vamos a ejecutar con frecuencia un comando de git largo, por ejemplo: 'git log --oneline --all --graph --pretty=format:"%C(auto)%h%d %s %C(black)%C(bold)%cr"', seria extrmadamente tedioso escribir todo eso cada vez o tener que copiarlo de algun archivo, por eso existe una forma de guardar comandos de git dentro de un alias para poder usarlos mas facilmente; esto lo hacemos de la siguiente forma:
+
+git config --global alias.<nombre-del-alias> <comando-a-guardar-en-el-alias-sin-el-git>
+
+En nuestro ejemplo seria asi:
+git config --global alias.log-mejorado "log --oneline --all --graph --pretty=format:'%C(auto)%h%d %s %C(black)%C(bold)%cr'"
+
+De ahora en mas cuando queramos ejecutar ese comando simplemente usamos "git <alias-del-comando>"
+
+-------------------------- GITIGNORE --------------------------
+El archivo .gitignore es un archivo que le dice a git que cosas no deben subirse con los commits.
+Formas de ignorar archivos:
+    - <nombre-archivo>: ignora el archivo en cuestion
+    - *<terminasion>: ignora todos los archivos que terminen de esa forma
+    - *.<extension>: ignora un tipo de archivo conreto
+    - !<nombre-archivo>: Hace que ese archivo no se ignore
+    - <nombre-directorio>/: Omite todo lo que se encuentra en una carpeta 
+
+Una forma de hacer esto es con por ejemplo "*.<extension>" que haria que git ignore todos los archivo con esa extension ("*.png" ignora todos los png's)

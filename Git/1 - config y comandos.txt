@@ -1,0 +1,90 @@
+-------------------- CONFIGURACION -------------------------
+user: Bauti
+email: bautistamgutierrez@gmail.com
+
+git config --global core.editor "code --wait" --> configuramos el editor de codigo, en este caso VSCode
+
+git config --global color.ui true --> Hacemos que la consola se vea mas linda
+git config --global core.autocrlf true --> Es para compatibilidad entre windows, unix y macOS (si se esta trabajando en windows se usa el valor "true", caso contrario "input")
+
+----------------- COMANDOS -------------------
+mkdir <nombre-dir> --> Crea un directorio (una carpeta) con un determinado nombre, viene de "make dir"
+rmdir <nombre-dir> --> Elimina un directorio, viene de "remove dir"
+
+git init --> inicializa un repositorio vacio
+
+git rm <archivo> --> Elimina un archivo del directorio de trabajo
+
+git add <nombre-archivo> -> Subimos los cambios realizados sobre un archivo a la zona de preparacion (Que cambiamos su contenido, su nombre o lo eliminamos)
+
+git status --> Muestra el estado del directorio de trabajo (donde se esta trabajando), los cambios enviados al repositorio (commits), los archivos en la zona de preparacion (changes to be commited) y modificaciones que no seran subidas al repositorio (untracked files)
+git status -s --> Da la misma informacion que "git status" pero en un formato mas resumido. "-s" es la abreviasion de "--short", usra uno u otro es indistinto.
+
+git commit --> Envia todos los cambios de los archivos en la zona de preparacion al repositorio. Tambien abre el editor de codigo para que escribamos que estamos haciendo en ese commit
+
+---------------------- Mas sobre commits ------------------------
+Si queremos eliminar un archivo del directorio de trabajo y que tambien se elimine del repositorio lo que hacemos es eliminarlo normalmente y lo enviamos a la zona de preparacion con "git add <archivo>" con esto lo que hacemos es decirle al repositorio "fijate que eliminamos este archivo del directorio de trabajo, hacelo cos tambien". La secuencia seria asi:
+    - Eliminamos el archivo1.aaa
+    - En consola ejecutamos "git add archivo1.aaa"
+    - En consola ejecutamos "git commit"
+Con esto el archivo1.aaa se elimina tanto del directorio de trabajo como del repositorio.
+
+si erroneamente eliminamos un archivo de nuestro directorio de trabajo pero todavia no hemos enviado a la zona de preparacion el cambio podemos usar el comando "git restore <archivo>" para traerlo devuelta con los cambios hechos.
+
+Para restaurar un archivo a la ultima version guardada en el repositorio se usa "git checkout <archivo>" siempre que no se haya enviado al area de preparacion. Si ya existe un archivo con ese nombre en el repositorio de trabajo lo sobreescribe, si no simplemente lo agrega.
+
+git mv <archivo> <nuevo nombre del archivo> --> cambia el nombre de un archivo y sube el cambio al area de preparacion
+
+--------------------------- git diff -------------------------------
+git show <archivo> --> Muestra la informacion de la ultima verision del archivo en el repositorio
+
+git diff --> Muestra la informacion de los archivos que hayamos modificado (que no se encuentran en el area de preparacion) y su informacion en el ultimo commit
+
+fit diff --staged --> Lo mismo que "git diff" pero compara lo del ultimo commit con lo del area de preparacion
+
+git log --> Muestra la informacion de los commits realizados en la rama en la que nos encontramos. Aquel con "(HEAD -> <nombre de rama>)" es el commit en el que nos encontramos actualmente, se ve en profundidad mas adelante
+
+git log --oneline -> Muestra un resumen de "git log" con una version abreviada del hash (El identificador del commit)
+
+Para modificar la longitud de la abreviasion del hash de los commits (No solo sirve a la hora de verlos sino tambien para cuando queramos hacer referencia a uno concreto) usamos:
+git config --global core.abbrev <numero de caracteres de la abreviasion>
+
+para ver la diferencia entre dos commits lo que hacemos es utilizar la abreviasion de los hashes commits a comparar de la siguiente manera:
+git diff <hash commit 1> <hash commit 2>. Ej: "git diff 44533 e244f"
+
+git diff --name-only <hash commit 1> <hash commit 2> --> Muestra solo el nombre de los archivos que cambiaron entre un commit y el otro
+
+git diff --word-diff <hash commit 1> <hash commit 2> --> No muestra las lineas enteras sino que muestra las palabras que cambiaron, se puede interpretar como que dependiendo el caso es mas entendible ver la diferencia de esta forma
+
+----------------------- modificar y deshacer commits -------------------------
+Modificar un commit es el realidad bastante sencillo, simplemente realizamos los cambiios en los archivos y el directorio de trabajo que deseamos y los subimos al area de preparacion, posteriormente reliazamos un commit pero agregando "--amend", la sintaxis quedaria de la siguiente forma:
+git commit --amend
+
+Esto aparte de modificar esto tambien nos abre una ventana en el editor de codigo que nos permite cambiar el mensaje del commit
+
+Hacer esto realmente no modifica el commit en si, en realidad lo que ocurre es que elimina el commit que ya existia y crea uno que lo remplaza, es por esto que el hash cambia.
+
+------
+para eliminar un commit lo que hay que hacer es posicionar el "HEAD", el cual es el puntero que nos indica en que commit y rama estamos trabajando, y moverlo mas atras, esto lo que provoca es que todos los commit que quedan despues de donde "HEAD" se encuentra se eliminen. Por ejemplo:
+
+tenemos 5 commits realizados en el siguiente orden: commit A, commit B, commit C, commit D y commit E
+si hacemos un "git log --oneline" obtenderemos algo como esto:
+00005 (HEAD -> master) commit E
+00004 commit D
+00003 commit C
+00002 commit B
+00001 commit A
+
+Si queremos elimina el commit E lo que tenemos que hacer es desplazar HEAD al commit D
+Para eso usamos el comando "reset" en una de sus tres formas, "--soft", "--mixed" o "--hard", usando el hash del commit en el que queremos posicionar HEAD de la siguiente manera:
+git reset --soft 00004
+
+FORMAS DE "RESET":
+    # git reset --soft <hash>: elimina el el/los commits y sus archivos los manda al area de preparacion, sin eliminar los que ya esten alli, si en el area de preparacion ya exite un archivo con ese nombre no lo sobreescribiendo 
+    # git reset --mixed <hash>: elimina el/los commits pero a su vez deja vacia el area de preparacion y, por lo tanto, no trae los archivos de el/los commit/s eliminado/s
+    # git reset --hard <hash>: elimina el/los commits, limpia el area de preparacion y trae todos sus archivos al area de trabajo, sobreescribiendo los archivos en nuestro directorio local; es por esto que es peligroso utilizar "reset --hard", ya que puede llevar a perder progreso en el que estubieramos trabajando
+
+Tambien podemos posicionar HEAD con notacion relativa, es decir, indicando cuantos commits tiene que retroceder. Esto se hace de la siguiente forma:
+git reset --soft head~<cantidad de posiciones>
+
+En nuestro ejemplo de antes como queriamos eliminar el ultimo commit podriamos haber utilizado "git reset --soft head~1" en lugar de "git reset --soft 00004". Si quisieramos eliminar los ultimos dos commits usariamos "git reset --soft head~2" y asi sucesivamente.

@@ -1,0 +1,62 @@
+------------------- RAMAS/BRANCHES -----------------------
+Una rama es un puntero que apunta a un conjunto de commits, la rama principal (que puede llamarse main, master o de cualquier otra manera) es en la que se encuetra el programa que se está desarrollando. Al crear una nueva rama lo que hacemos es, por así decirlo, crear una bifurcación del proyecto, se crea una copia del proyecto hasta ese punto para poder trabajar sin afectar a la rama principal y si todo funciona correctamente incorporar esos cambios a esta.
+Esto permite por ejemplo, probar distintas soluciones a errores sin preocuparnos de si el codigo se rompe, ya que el proyecto en sí se encuentra en la rama principal y no en la que creamos y cuando estemos conformes con el resultado, entonces incorporar los cambios la rama principal.
+
+Ejemplo de la estructura de git
+
+  master
+----------(commit 1)----(commit 2)-----(commit 3)--------------(commit 4)
+                                            |                      |
+                        rama para arreglar  |                      |
+                                el error X  |                      |
+                                            |-----(commit 1)---(commit 2)
+
+Cabe aclarar que las ramas se crean para algo en concreto (solucionar errores, incorporar funcionalidad X, optimizar codigo, etc) y una vez la rama cumple su funcion y los cambios se incorporan a la rama principal esta rama secundaria se elimina
+
+
+--------------------- Crear ramas ------------------------
+git branch --> Muestra todas las ramas que se encuentran creadas y resalta la rama en la que nos encontramos
+
+git branch <nombre-de-la-rama> --> Crea una rama hija de la rama en la que nos encontremos con ese nombre
+
+git switch <nombre-de-la-rama> --> Nos desplaza a la rama en cuestion
+
+git switch -c <nombre-de-la-rama> --> Crea una rama con ese nombre y nos desplaza automaticamente a ella ("-c" viene de create)
+
+git branch -d <nombre-de-la-rama> --> Elimina la rama, es importante no estar posicionado en ella pq da lugar a problemas ("-d" viene de delete)
+
+git branch -m <nombre-actual-de-la-rama> <nuevo-nombre-de-la-rama> --> Cambia el nombre de la rama, en caso de que queramos cambiar el nombre de la rama en la que nos encontramos podemos solo darle el segundo parametro ("git branch -m <nuevo-nombre-de-la-rama>") ("-m" viene de move)
+
+--------------------------- FUSIONAR RAMAS (MERGE) -------------------------
+Para fusionar ramas tenemos que posicionarnos en la rama a la que se van a incorporar los cambios (si queremos que a master se le agreguen los cambios de la rama "modificar-archivo" no posicionamos en master)
+Una vez en ella usamos el comando "git merge <rama con la que queremos fucionar>", esto lo que hace es fucionar los ultimos commits de ambas ramas como un nuevo commit de la rama en la que nos encontramos.
+
+Esto muestra un mensaje parecido al siguiente:
+"Updating <hash del ultimo commit de la rama en la que nos encontramos>..<hash del ultimo commit de la rama que fucionamos>
+ Fast-forward
+  <archivo> | <numero de modificaciones hechas al archivo> <tantos "+" como insertions se le hiciron al archivo><tantos "-" como deletions se le hicieron al archivo>
+  <numero de archivo cambiados> file changed, <nuemero de insertions hechas> insertions(+), <numero de deletions hechas> deletions(-)"
+
+En "Ejemplo 1" Aal fucionar master con "optimize-sum-function" el mensaje es:
+"Updating 4eed8..78111
+ Fast-forward
+  func.py | 10 +++-------
+  1 file changed, 3 insertions(+), 7 deletions(-)"
+
+Para deshacer una fusion de ramas lo que hacemos es posicionarnos en la rama a la que incorporamos los cambios (en "Ejemplo 1" master) y hacemos un "reset --hard" al commit anterior a la fusion, esto lo unico que hace es eliminar la fusion, el commit de la rama secundaria (en el Ejemplo 1 "optimize-sum-function") que fusionamos sigue intacto.
+
+------------------------------- MERGE CONFLICTS -------------------------------
+Un conflicto de fusion ocurre cuando hemos realizado commits en la rama padre a la par que haciamos commits en la rama hija, esto da como resultado algo como lo siguiente:
+
+main
+--------(commit 1)-------(commit 2)---------(commit 3)
+            |                                    |
+            |                                    |
+    rama 1  |                                    |
+            |------------(commit 1)---------(commit 2)
+
+Cuando nosotros queremos fusionar "main" con la "rama 1" nos va a dar un conflicto de fusion porque git no sabe con cual de los cambios quedarse, si con los del commit 2 de "main" o si con lo del commit 2 de "rama 1", caundo esto ocurre tenemos 4 opciones:
+    - Accept current change: Quedarse con el cambio de la rama en la que nos encontramos
+    - Accept incoming change: Quedarse con el cambio de la rama que estamos fusinando
+    - Accept both changes: fusionar ambos archivos, literalmente pega el codigo de uno abajo del otro
+    - Solucion manual: En caso de que se desee combinar los cambios de ambas ramas porque aceptar ambos no da el resultado deseado no queda otra que escribir manualmente el codigo, generalmente esto es rapido y consiste en copiar y pegar partes de ambos cambios

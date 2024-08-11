@@ -1,0 +1,27 @@
+------------------------------------ Git Clone ------------------------------------
+Esto hace referencia a descargar el repositorio remoto del servidor, basicamente, clonarlo en nuestro equipo, manteniendo una referencia al repositorio remoto (por defecto y por convencion llamada "origin").
+Para hacer esto vamos al repositorio de GitHub y seleccionamos "Code", aqui se nos dan 3 opciones para clonar el repositorio: https, ssh y GitHub CLI; si bien la opcion mas segura es ssh de momento utilizaremos https porque es la mas sencilla.
+Para clona el repositorio con https abrimos la terminal en nuestro dispositivo, nos dirigimos a la carpeta donde queremos que se clone el repositorio y ejecutamos el comando:
+
+git clone <url proporcionada por GitHub> --> Esto crea una nueva carpeta con todo el repositorio, incluyendo historial de commits. Si el repositorio es privado nos solicita iniciar sesion en GitHub.
+
+Esto ya nos permite trabajar con el repositorio como lo hemos visto hasta ahora
+
+------------------------------------ Git Push ------------------------------------
+Esto hace referencia a subir al repositorio remoto todos los commits que hayamos hecho en el repositorio local, hacer esto es tan simple como usar el siguiente comando:
+
+git push <referencia al repositorio remoto> --> Recordar que por defecto esta referencia al repositorio remoto es "origin", por lo que el comando por defecto quedaria "git push origin". Esto nos va a pedir que iniciemos sesion con GitHub para poder referenciarnos como la persona que ha realizado esos cambios, para ello debemos tener configurado como nuestro mail de usuario de git el mismo de nuestra cuenta de GitHub
+
+Con esto ya se habran subido los cambios al repositorio remoto, verificarlo es tan simple como ver los archios desde el repositorio en GitHub.
+
+-------------------------------- Git Pull & Fetch --------------------------------
+https://www.atlassian.com/es/git/tutorials/syncing/git-fetch
+
+Git fetch lo que hace es traer los cambios del repositorio remoto a nuestro dispositivo pero sin realizarlos, todavia, en nuestro area de trabajo, lo que hace es crear una rama temporal y aislada (con el nombre "origin/master") para que podamos ver los cambios y, si lo deseamos, incorporarlos a nuestro area de trabajo con una fusion de ramas. El comando es como ya es de esperarse: "git fetch" en caso de que queramos traer los datos del repositorio remoto que se encuentran en la misma rama en la que estamos trabajando o "git fetch origin <nombre-de-rama>" en caso de que queramos traer los cambios de otra rama.
+
+Si queremos observar los archivos que trajo el git fetch debemos desplazarnos a la rama temporal que ha creado usando "git switch" o usar el comando "git diff" para comparar los commits.
+
+Una vez que hayamos revisado los archivos podemos usar git merge para fusionar la rama temporal con la rama en la que estemos trabajando. En caso de que ocurra un merge conflict debemos solucoinarlo como hemos visto en la seccion de Git. El comando es: "git pull".
+
+
+git pull lo que hace es realizar un "git fetch" e inmediatamente despues un "git merge" entre la rama obtenida del servidor y la local. Esto puede ser util si estamos comenzando a trabajar y simplemente queremos traer los cambios que haya realizado el resto del equipo pero en caso de que nosotros hayamos realizado un cambios en nuestro repositorio local podria arrojar un merge conflict y debido a que no hicimos nosotros el "git fetch" tenemos menos libertad en cuanto a como preferimos comparar los archivos para solucionar el confilcto de fusion.

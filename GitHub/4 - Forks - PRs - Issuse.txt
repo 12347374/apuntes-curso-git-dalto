@@ -1,0 +1,15 @@
+----------------------------------- FORKS -----------------------------------
+Un fork es basicamente una bifurcacion de un repositorio, hacer un fork en GitHub hace referencia a tomar un repositorio de otra persona y hacer una copia en nuestra cuenta de GitHub.
+Haciendo esto podemos clonarlo localmente para trabajar y hacer todo lo que ya hemos visto pero partiendo del codigo desarrollado por alguien mas.
+
+Hacer un fork es tan simple como ir al repositorio del que queremos hacer la bifurcacion y darle al boton que dice "fork"
+
+------------------------------- PULL REQUEST (PR) -------------------------------
+Una vez nosotros hemos hecho cambios en nuestro fork de un proyecto, ya sea agregando nuevas funcionalidades u optimizando las ya existentes, podemos subirlos a nuestra copia del repositorio, pero si queremos que estas mejoras pasen a formar parte del proyecto original tenemos que hacer una pull request.
+
+Una pull request es basicamente eso, enviar los cambios que hicimos nosotros para que el propietario del proyecto original los acepte.
+
+Para hacer una pull request vamos a nuestra copia del repositorio en GitHub y si nuestro proyecto esta adelantado respecto al original, nosotros hicimos cambios, nos aparecera un boton que dice "Contribute" le hacemos click y nos permite abrir una pull request
+
+---------------------------------- ISSUSE ----------------------------------
+Una issue es una tarea pendiente de hacer en el proyecto, solucionar un error, optimizar algo, hacer un apartado responsive, etc. Cualquier contribuidor del proyecto puede crear una issue y asignarsela a un maximo de 10 presonas.

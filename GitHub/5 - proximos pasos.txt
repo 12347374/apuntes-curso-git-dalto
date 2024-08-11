@@ -1,0 +1,10 @@
+A continuacion hay una lista de conceptos que son importantes pero que no se abarcan en el curso para que se tenga una idea de por donde siguir aprendiendo:
+    - git stash
+    - cherry-pick
+    - milestones
+    - tags
+    - rebase y squash
+    - submodulos
+    - git bisect
+    - git hooks
+    - estrategias de branching (Por ejemplo "Git Flow" o "GitHub Flow")

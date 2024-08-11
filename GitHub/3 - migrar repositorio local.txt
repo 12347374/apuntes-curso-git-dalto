@@ -1,0 +1,21 @@
+Migrar un repositorio local hace referencia a hacer que un repositorio que tenemos en nuestro equipo pase a estar tambien en uno remoto.
+
+Para esto vamos a GitHub y cramos el repositorio donde vamos a migrar nuestro repo local.
+
+Despues ejecutamos el siguiente comando de git:
+git remote add origin <enlace-al-repositorio> --> Este comando lo que hace es decirle a git que genere la referencia al repositorio remoto en el enlace con el nombre "origin"
+
+con el comando "git remote -v" podemos ver todas las acciones que nos permite hacer el lugar donde almacenamos el repositorio remoto. En el caso de GitHub nos permite hacer "fetch" y "push"
+
+Despues tenemos que acegurarnos que el nombre de la rama principal del repositorio local sea igual a la del remoto, por defecto la rama principal de GitHub es "main" asi que lo mas comodo es cambiar el nombre de la rama principal local con el siguiente comando:
+git branch -M main --> cambia el nombre de la rama en la que nos encontramos a "main"
+
+Si ahora intentamos hacer un push nos dira que no puede asociar la rama actual con ninguna del repositorio, esto es porque, en teoria, no tenemos. Para ello usamos el comando:
+git push --set-upstream origin main --> Esto quiere decir enivia (push) los cambios de la rama a la rama remota "main" y crea una referencia entre la rama local y la remota (basicamente que git ya identifique que esas ramas son las mismas).
+git push -u origin main --> Hace lo mismo "-u" es la abreviasion de "--set-upstream"
+
+https://stackoverflow.com/questions/37770467/why-do-i-have-to-git-push-set-upstream-origin-branch
+https://git-scm.com/docs/git-push
+
+
+Gracias al "-u" de ahora en mas no hace falta que especifiquemos a que rama queremos hacer el push, automaticamente lo hace a la rama "main" de origin

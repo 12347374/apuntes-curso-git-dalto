@@ -1,0 +1,12 @@
+--------------------------------- Que es GitHub ---------------------------------
+
+GitHub es basicamente un servicio de hosting de codigo, es decir, un servidor donde podemos almacenar codigo, que a la hora de desarrollar software actua como una nueva area de Git. Antes teniamos solo 3 areas:
+    - Area local: el directorio en el que estamos trabajando
+    - Area de stageing (o preparacion): donde los cambios aguardaban para ser subidos al repositorio
+    - Repositorio local: El repositorio que se encuentra creado en nuestro equipo
+
+GitHub cumpliria la funcion de una 4ta area, que seria el repositorio remoto, que es donde va a parar todo el codigo, de todos los que colaboren en el proyecto, de esta forma el tercer area, el repositorio local, pasa a ser una copia del repositorio remoto. Esto permite que al trabajar en equipo cada uno de los miebros del mismo pueda sincronizar facilmente su area de trabajo con los cambios del resto del equipo, haciendo asi que el desarrollo en conjunto sea mucho mas sencillo.
+
+------------------------- Crear y Configurar Repositorio de GitHub -------------------------
+En general todo es bastante intuitivo en este aspecto, simplemente cabe recalcar algunos conseptos:
+    - Issues: Son basicamente tareas por realizar, creamos una issue cuando encontramos un error o un aspecto del programa que debe modificarse para que cualquiera pueda ver aquellas cosas que hay por corregir.
