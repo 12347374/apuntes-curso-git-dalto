@@ -1,6 +1,6 @@
 -------------------- CONFIGURACION -------------------------
-user: Bauti
-email: bautistamgutierrez@gmail.com
+user: git config --global user.name <userName>
+email: git config --global user.email <email>
 
 git config --global core.editor "code --wait" --> configuramos el editor de codigo, en este caso VSCode
 
